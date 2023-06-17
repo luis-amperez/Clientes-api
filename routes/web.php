@@ -36,6 +36,8 @@ Route::get('/roles', [App\Http\Controllers\ConfigController::class, 'roles'])->n
 Route::get('/crear-roles', [App\Http\Controllers\ConfigController::class, 'crearRole'])->name('crearRole');
 Route::post('/guardar-roles', [App\Http\Controllers\ConfigController::class, 'guardarRol'])->name('guardarRol');
 Route::get('/eliminar-roles/{id}', [App\Http\Controllers\ConfigController::class, 'eliminarRoles'])->name('eliminarRoles');
+Route::get('/asignar-roles', [App\Http\Controllers\ConfigController::class, 'asignarRol'])->name('asignarRol');
+Route::post('/guardar-asignacionrol', [App\Http\Controllers\ConfigController::class, 'guardarRoleasig'])->name('guardarRoleasig');
 
 Route::get('/permisos', [App\Http\Controllers\ConfigController::class, 'permisos'])->name('permisos');
 Route::get('/crear-permiso', [App\Http\Controllers\ConfigController::class, 'crearPermiso'])->name('crearPermiso');

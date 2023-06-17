@@ -23,6 +23,8 @@
     <div class="card-body">
       <h5 class="card-title">Listado de Roles <a href="{{route('crearRole')}}"><i class="fa fa-plus" aria-hidden="true"></i>
       </a></h5>
+      <h5 class="card-title">Asignar Usuario a Rol <a href="{{route('asignarRol')}}"><i class="fa fa-plus" aria-hidden="true"></i>
+      </a></h5>
 
       <table class="table table-hover">
         <thead>

@@ -453,7 +453,7 @@ class ConfigController extends Controller
         $respuesta = json_decode($response);
         if (isset($respuesta->data)){
           $datos = $respuesta->data;
-          
+     
         }
        
         if($respuesta->status == 200){
@@ -466,5 +466,57 @@ class ConfigController extends Controller
     }
 
   }
+
+  public function asignarRol()
+  {
+    return view ("admin.usuarios.asignar_roles");
+
+  }
+
+  public function guardarRoleasig(Request $request)
+  {
+    if (Session::get('token') != ''){
+      $curl = curl_init();
+      $url= env("URL_SERVER_API", "http://127.0.0.1");
+
+     
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => $url.'asignar-roles',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+
+          "model_id":"'.$request->model_id.'", 
+          "role_id":"'.$request->role_id.'"
+      
+      }',
+        CURLOPT_HTTPHEADER => array(
+          'Content-Type: application/json',
+          'Authorization: Bearer '.Session::get('token')
+        ),
+      ));
+      
+      $response = curl_exec($curl);
+      $respuesta = json_decode($response);
+      if (isset($respuesta->data)){
+        $datos = $respuesta->data;
+     
+      }
+     
+      if($respuesta->status == 200){
+        return view ("admin.usuarios.roles",compact('datos'));
+      }elseif($respuesta->status()== 401){
+        return view ("auth.login", compact("response"));
+      }
+  }else{
+      return view ("auth.login");
+  }
+
+}
 
 }
