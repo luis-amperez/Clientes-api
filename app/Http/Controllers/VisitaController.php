@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\visitas;
+use Illuminate\Support\Facades\Redirect;
 
 class VisitaController extends Controller
 {
     
     public function visitas(){
 
-      
+       
         if (Session::get('token') != ''){
             $curl = curl_init();
             $url= env("URL_SERVER_VISITAS", "http://127.0.0.1");
-            
+           
             curl_setopt_array($curl, array(
               CURLOPT_URL => $url.'visitas',
               CURLOPT_RETURNTRANSFER => true,
@@ -40,8 +41,18 @@ class VisitaController extends Controller
             if($respuesta->status == 200){
               return view ("admin.visitas.visitas",compact('datos'));
             }elseif($respuesta->status == 401){
-              return view ("auth.login", compact("response"));
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
+              //return view ("auth.login", compact("response"));
+            }else{
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
             }
+
         }else{
             return view ("auth.login");
         }
@@ -92,9 +103,15 @@ class VisitaController extends Controller
         if($respuesta->status == 200){
           return view ("admin.visitas.visitas",compact('datos'));
         }elseif($respuesta->status()== 401){
-          return view ("auth.login", compact("response"));
+          $mensaje = "Permiso denegado";         
+          Session::flash('mensaje', $mensaje);
+          Session::flash('alert', 'error');
+    
+          return Redirect::back();
+          //return view ("auth.login", compact("response"));
         }
     }else{
+    
         return view ("auth.login");
     }
 
