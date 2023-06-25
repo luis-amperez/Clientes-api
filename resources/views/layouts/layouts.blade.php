@@ -75,7 +75,16 @@
             </div>
           </nav>
     
-                    
+         
+        @if(session()->has('alert'))
+        @if(session()->has('mensaje'))
+        <div class="alert alert-warning" id="alert-warning">{{ session('mensaje') }}
+          <a href="#" class="close" data-dismiss="alert-warning">&times;</a>
+        </div>
+      @endif
+        @endif
+  
+
     @yield('header')
 
     @yield('content')
