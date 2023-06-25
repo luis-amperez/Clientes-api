@@ -28,17 +28,30 @@
     <input type="hidden" name="_token" id="bono_token" value="{{ csrf_token() }}">
         <div class="mb-3">
           <label for="correo_cliente" class="form-label">Correo Cliente</label>
-          <input type="text" class="form-control" id="nombre" name="correo_cliente">
+          <input type="email" class="form-control" id="nombre" name="correo_cliente" required>
         </div>
 
         <div class="mb-3">
-          <label for="nombre_cliente" class="form-label">nombre_cliente</label>
-          <input type="text" class="form-control" id="correo" name="nombre_cliente">
+          <label for="id_cliente" class="form-label">cliente</label>
+          <select class="form-select" aria-label="Default select example" name="id_cliente">
+            <option selected>Eliga un cliente</option>
+            @foreach ($clientes as $cliente)
+            <option value={{$cliente->id}}>{{$cliente->nombre}}</option> 
+            @endforeach
+           
+            
+          </select>
+          {{-- <input type="text" class="form-control" id="correo" name="id_cliente"> --}}
         </div>
 
         <div class="mb-3">
-        <label for="nombre_tecnico" class="form-label">nombre_tecnico</label>
-        <input type="text" class="form-control" id="correo" name="nombre_tecnico">
+        <label for="id_tecnico" class="form-label">tecnico</label>
+        <select class="form-select" aria-label="Default select example" name="id_tecnico">
+          <option selected>Eliga un tecnico</option>
+          @foreach ($tecnicos as $tecnico)
+          <option value={{$tecnico->id}}>{{$tecnico->name}}</option> 
+          @endforeach
+        </select>
         </div>
 
         <div class="mb-3">

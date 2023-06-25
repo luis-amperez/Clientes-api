@@ -31,12 +31,24 @@
     
     <div class="mb-3">
         <label for="model_id" class="form-label">Id del Usuario</label>
-        <input type="text" class="form-control" id="model_id" name="model_id">
+        <select class="form-select" aria-label="Default select example" name="model_id">
+          <option selected>Eliga un usuario</option>
+          @foreach ($users as $user)
+          <option value={{$user->id}}>{{$user->name}}</option> 
+          @endforeach
+
+        </select>
       </div>
     
     <div class="mb-3"> 
           <label for="role_id" class="form-label">Id del Role</label>
-          <input type="text" class="form-control" id="role_id" name="role_id">
+          <select class="form-select" aria-label="Default select example" name="role_id">
+            <option selected>Eliga un rol</option>
+            @foreach ($roles as $rol)
+            <option value={{$rol->id}}>{{$rol->name}}</option> 
+            @endforeach
+  
+          </select>
         </div>
 
 

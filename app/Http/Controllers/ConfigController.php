@@ -36,21 +36,6 @@ class ConfigController extends Controller
             ));
             
             $response = curl_exec($curl);
-            
-            // $headers = [
-            //     'Authorization' => 'Bearer 34|Xd0ZvqaQ0l6tiSwPxmp3S0Rykww1YIp5TjYXrAx9',
-            // ];
-            // $url= env("URL_SERVER_API", "http://127.0.0.1");
-            // $response=Http::get($url."users", [
-            //     'headers' => $headers
-            // ]);
-            // $client = new Client();
-            // $headers = [
-            //     'Authorization' => 'Bearer 34|Xd0ZvqaQ0l6tiSwPxmp3S0Rykww1YIp5TjYXrAx9'
-            // ];
-            // $request = new Request('GET', '192.168.1.22:8080/configuraciones/api/users', $headers);
-            // $res = $client->sendAsync($request)->wait();
-            // dd($res);
             $respuesta = json_decode($response);
             $datos = $respuesta->data;
             if($respuesta->status == 200){
@@ -469,7 +454,49 @@ class ConfigController extends Controller
 
   public function asignarRol()
   {
-    return view ("admin.usuarios.asignar_roles");
+    $curl = curl_init();
+    $url= env("URL_SERVER_API", "http://127.0.0.1");
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $url.'users',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer '.Session::get('token')
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    $respuesta = json_decode($response);
+    $users = $respuesta->data;
+
+    $curl = curl_init();
+            $url= env("URL_SERVER_API", "http://127.0.0.1");
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $url.'roles',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+              CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.Session::get('token')
+              ),
+            ));
+            
+            $response = curl_exec($curl);
+            $respuesta = json_decode($response);
+            $roles = $respuesta->data;
+
+      return view ("admin.usuarios.asignar_roles", compact('roles', 'users'));
 
   }
 
