@@ -148,7 +148,9 @@ class VisitaController extends Controller
           
         }
         if($respuesta->status == 200){
+          return Redirect ("/visitas");
           return view ("admin.visitas.visitas",compact('datos'));
+
 
         }elseif($respuesta->status == 401){
           $mensaje = "Permiso denegado";         
@@ -197,6 +199,7 @@ class VisitaController extends Controller
         }
        
         if($respuesta->status == 200){
+          return Redirect ("/visitas");
           return view ("admin.visitas.visitas",compact('datos'));
         }elseif($respuesta->status ()== 401){
           return view ("auth.login", compact("response"));

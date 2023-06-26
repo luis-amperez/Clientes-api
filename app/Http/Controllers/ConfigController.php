@@ -159,6 +159,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/roles");
           return view ("admin.usuarios.roles",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -259,6 +260,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/users");
           return view ("admin.usuarios.index",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -299,6 +301,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/users");
           return view ("admin.usuarios.index",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -337,6 +340,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/roles");
           return view ("admin.usuarios.roles",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -377,6 +381,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/permisos");
           //return route('permisos');
           return view ("admin.usuarios.permisos",compact('datos'));
         }elseif($respuesta->status()== 401){
@@ -433,6 +438,7 @@ class ConfigController extends Controller
         }
         
         if($respuesta->status == 200){
+          return Redirect ("/permisos");
           return view ("admin.usuarios.permisos",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -533,6 +539,7 @@ class ConfigController extends Controller
         }
        
         if($respuesta->status == 200){
+          return Redirect ("/permisos");
           return view ("admin.usuarios.permisos",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -627,6 +634,7 @@ class ConfigController extends Controller
       }
      
       if($respuesta->status == 200){
+        return Redirect ("/roles");
         return view ("admin.usuarios.roles",compact('datos'));
       }elseif($respuesta->status()== 401){
         return view ("auth.login", compact("response"));
