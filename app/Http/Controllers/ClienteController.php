@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class ClienteController extends Controller
 {
@@ -80,6 +81,7 @@ class ClienteController extends Controller
         $respuesta = json_decode($response);
         $datos = $respuesta->data;
         if($respuesta->status == 200){
+          return Redirect ("/clientes");
           return view ("admin.clientes.clientes",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
@@ -118,6 +120,7 @@ class ClienteController extends Controller
          
        
         if($respuesta->status == 200){
+          return Redirect ("/clientes");
           return view ("admin.clientes.clientes",compact('datos'));
         }elseif($respuesta->status()== 401){
           return view ("auth.login", compact("response"));
