@@ -108,6 +108,10 @@ class ConfigController extends Controller
               return Redirect::back();
             }
         }else{
+          $mensaje = "Permiso denegado";         
+          Session::flash('mensaje', $mensaje);
+          Session::flash('alert', 'error');
+          return Redirect::back(); 
             return view ("auth.login");
         }
     }

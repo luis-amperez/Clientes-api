@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -27,6 +28,7 @@ class UserController extends Controller
       }elseif($response->status()== 200){
         Session::put('token',$response['msg']);
         cookie('token',$response['msg']);
+        return Redirect ("/");
         return view ("admin.dashboard");
 
       }elseif($response->status()== 401){
