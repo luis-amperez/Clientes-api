@@ -26,14 +26,26 @@
 
     <form action="{{ route('guardarAsignacion') }}" method="POST">
     <input type="hidden" name="_token" id="bono_token" value="{{ csrf_token() }}">
-        <div class="mb-3">
-          <label for="permission_id" class="form-label">Id del Permiso</label>
-          <input type="text" class="form-control" id="permission_id" name="permission_id">
+        
+    <div class="mb-3">
+          <label for="permission_id" class="form-label">Permiso</label>
+          <select class="form-select" aria-label="Default select example" name="permission_id">
+            <option selected>Eliga un Permiso</option>
+            @foreach ($permisos as $permiso)
+            <option value={{$permiso->id}}>{{$permiso->name}}</option> 
+            @endforeach
+          </select>
         </div>
 
         <div class="mb-3">
-          <label for="role_id" class="form-label">Id del Rol</label>
-          <input type="text" class="form-control" id="role_id" name="role_id">
+          <label for="role_id" class="form-label">Rol</label>
+          <select class="form-select" aria-label="Default select example" name="role_id">
+            <option selected>Eliga un rol</option>
+            @foreach ($roles as $rol)
+            <option value={{$rol->id}}>{{$rol->name}}</option> 
+            @endforeach
+  
+          </select>
         </div>
 
 
