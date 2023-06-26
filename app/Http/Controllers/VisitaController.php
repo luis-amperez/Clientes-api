@@ -62,7 +62,7 @@ class VisitaController extends Controller
     public function crearVisita()
     {
       $curl = curl_init();
-            $url= env("URL_SERVER_CLIENTE", "http://127.0.0.1");
+      $url= env("URL_SERVER_CLIENTE", "http://127.0.0.1");
 
             curl_setopt_array($curl, array(
               CURLOPT_URL => $url.'clientes',
@@ -101,11 +101,12 @@ class VisitaController extends Controller
             
             $response = curl_exec($curl);
             $respuesta = json_decode($response);
+           
             $tecnicos = $respuesta->data;
+       
            
       return view ("admin.visitas.crear_visitas", compact('tecnicos', 'clientes'));
-      
-      
+
 
     }
 
@@ -148,13 +149,18 @@ class VisitaController extends Controller
         }
         if($respuesta->status == 200){
           return view ("admin.visitas.visitas",compact('datos'));
-        }elseif($respuesta->status()== 401){
+
+        }elseif($respuesta->status == 401){
           $mensaje = "Permiso denegado";         
           Session::flash('mensaje', $mensaje);
           Session::flash('alert', 'error');
-    
           return Redirect::back();
           //return view ("auth.login", compact("response"));
+        }else{
+          $mensaje = "Permiso denegado";         
+          Session::flash('mensaje', $mensaje);
+          Session::flash('alert', 'error');
+          return Redirect::back();
         }
     }else{
     
@@ -188,12 +194,17 @@ class VisitaController extends Controller
         $respuesta = json_decode($response);
         if (isset($respuesta->data)){
           $datos = $respuesta->data;
-         
+        }
        
         if($respuesta->status == 200){
           return view ("admin.visitas.visitas",compact('datos'));
-        }elseif($respuesta->status()== 401){
+        }elseif($respuesta->status ()== 401){
           return view ("auth.login", compact("response"));
+        } else{
+          $mensaje = "Permiso denegado";         
+          Session::flash('mensaje', $mensaje);
+          Session::flash('alert', 'error');
+          return Redirect::back();
         }
     }else{
         return view ("auth.login");
@@ -203,4 +214,3 @@ class VisitaController extends Controller
 }
 
 
-}

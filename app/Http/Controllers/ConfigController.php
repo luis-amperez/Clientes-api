@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use stdClass;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 
 class ConfigController extends Controller
@@ -37,11 +38,26 @@ class ConfigController extends Controller
             
             $response = curl_exec($curl);
             $respuesta = json_decode($response);
-            $datos = $respuesta->data;
+            if (isset($respuesta->data)){
+              $datos = $respuesta->data;
+              
+            }
+           
+         
             if($respuesta->status == 200){
               return view ("admin.usuarios.index",compact('datos'));
-            }elseif($respuesta->status()== 401){
-              return view ("auth.login", compact("response"));
+          
+            }elseif($respuesta->status == 401){
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
+              //return view ("auth.login", compact("response"));
+            }else{
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
             }
         }else{
             return view ("auth.login");
@@ -49,7 +65,9 @@ class ConfigController extends Controller
     }
 
     public function roles(){
-        
+
+      Controller::chektoken();
+
         if (Session::get('token') != ''){
             $curl = curl_init();
             $url= env("URL_SERVER_API", "http://127.0.0.1");
@@ -69,13 +87,25 @@ class ConfigController extends Controller
             ));
             
             $response = curl_exec($curl);
-    
             $respuesta = json_decode($response);
-            $datos = $respuesta->data;
+            if (isset($respuesta->data)){
+              $datos = $respuesta->data;
+              
+            }
+            
             if($respuesta->status == 200){
               return view ("admin.usuarios.roles",compact('datos'));
-            }elseif($respuesta->status()== 401){
-              return view ("auth.login", compact("response"));
+            }elseif($respuesta->status== 401){
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
+              //return view ("auth.login", compact("response"));
+            }else{
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
             }
         }else{
             return view ("auth.login");
@@ -157,13 +187,25 @@ class ConfigController extends Controller
             ));
             
             $response = curl_exec($curl);
-    
             $respuesta = json_decode($response);
-            $datos = $respuesta->data;
+            if (isset($respuesta->data)){
+              $datos = $respuesta->data;
+              
+            }
+
             if($respuesta->status == 200){
               return view ("admin.usuarios.permisos",compact('datos'));
-            }elseif($respuesta->status()== 401){
-              return view ("auth.login", compact("response"));
+            }elseif($respuesta->status == 401){
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
+              //return view ("auth.login", compact("response"));
+            }else{
+              $mensaje = "Permiso denegado";         
+              Session::flash('mensaje', $mensaje);
+              Session::flash('alert', 'error');
+              return Redirect::back();
             }
         }else{
             return view ("auth.login");
@@ -400,7 +442,52 @@ class ConfigController extends Controller
 
   public function asignarPermiso()
     {
-      return view ("admin.usuarios.asignar_permisos");
+      $curl = curl_init();
+      $url= env("URL_SERVER_API", "http://127.0.0.1");
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $url.'roles',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+              CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.Session::get('token')
+              ),
+            ));
+            
+            $response = curl_exec($curl);
+            $respuesta = json_decode($response);
+            $roles = $respuesta->data;
+
+            $curl = curl_init();
+            $url= env("URL_SERVER_API", "http://127.0.0.1");
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $url.'permisos',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+              CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.Session::get('token')
+              ),
+            ));
+            
+            $response = curl_exec($curl);
+    
+            $respuesta = json_decode($response);
+            $permisos = $respuesta->data;
+
+            
+
+      return view ("admin.usuarios.asignar_permisos",compact('roles', 'permisos'));
 
 
     }
@@ -476,7 +563,7 @@ class ConfigController extends Controller
     $users = $respuesta->data;
 
     $curl = curl_init();
-            $url= env("URL_SERVER_API", "http://127.0.0.1");
+    $url= env("URL_SERVER_API", "http://127.0.0.1");
 
             curl_setopt_array($curl, array(
               CURLOPT_URL => $url.'roles',
